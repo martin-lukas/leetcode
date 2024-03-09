@@ -87,11 +87,13 @@ class SolutionTest {
 
   @Test
   void isPalindromeTest() {
-    assertTrue(tested.isPalindrome("a"));
-    assertTrue(tested.isPalindrome("bb"));
-    assertTrue(tested.isPalindrome("bab"));
-    assertTrue(tested.isPalindrome("abba"));
-    assertFalse(tested.isPalindrome("abb"));
-    assertFalse(tested.isPalindrome("abaca"));
+    var evenStr = "abba";
+    assertTrue(tested.isPalindrome(evenStr, 0, 0));
+    assertTrue(tested.isPalindrome(evenStr, 1, 2));
+    assertFalse(tested.isPalindrome(evenStr, 0, 2));
+    assertTrue(tested.isPalindrome(evenStr, 0, 3));
+    var oddStr = "abaca";
+    assertTrue(tested.isPalindrome(oddStr, 0, 2));
+    assertFalse(tested.isPalindrome(oddStr, 0, 4));
   }
 }

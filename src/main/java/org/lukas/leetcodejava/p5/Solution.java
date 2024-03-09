@@ -56,23 +56,6 @@ class Solution {
     return s.substring(bestLeft, bestRight);
   }
 
-
-  /**
-   * Time complexity: O(n^3); Space complexity: O(1)
-   */
-  public String longestPalindromeBruteForce(String s) {
-    String longest = "";
-    for (int i = 0; i < s.length(); i++) {
-      for (int j = i + 1; j <= s.length(); j++) {
-        var sub = s.substring(i, j);
-        if (isPalindrome(sub) && sub.length() > longest.length()) {
-          longest = sub;
-        }
-      }
-    }
-    return longest;
-  }
-
   int expandCenter(String s, int center) {
     int left = center - 1;
     int right = center + 1;
@@ -99,8 +82,27 @@ class Solution {
     return gap - left;
   }
 
-  boolean isPalindrome(String s) {
-    for (int i = 0, j = s.length() - 1; i < j; i++, j--) {
+  /**
+   * Time complexity: O(n^3); Space complexity: O(1)
+   */
+  public String longestPalindromeBruteForce(String s) {
+    var bestLeft = 0;
+    var bestRight = 0;
+    for (int i = 0; i < s.length(); i++) {
+      for (int j = i + 1; j < s.length(); j++) {
+        var curLen = j - i;
+        var maxLen = bestRight - bestLeft;
+        if (isPalindrome(s, i, j) && curLen > maxLen) {
+          bestLeft = i;
+          bestRight = j;
+        }
+      }
+    }
+    return s.substring(bestLeft, bestRight + 1);
+  }
+
+  boolean isPalindrome(String s, int left, int right) {
+    for (int i = left, j = right; i < j; i++, j--) {
       if (s.charAt(i) != s.charAt(j)) {
         return false;
       }
