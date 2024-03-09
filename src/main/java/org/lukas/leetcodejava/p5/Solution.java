@@ -29,6 +29,8 @@ class Solution {
     return s.substring(bestLeft, bestRight + 1);
   }
 
+  public enum Origin {CHAR, GAP}
+
   /**
    * Time complexity: O(n^2); Space complexity: O(1); O(n^2) thanks to avoiding call isPalindrome
    */
@@ -36,28 +38,30 @@ class Solution {
     var bestLeft = 0;
     var bestRight = 0;
     for (int i = 0; i < s.length(); i++) {
+      var centerSteps = expandCenter(s, i, Origin.CHAR);
+      var gapSteps = expandCenter(s, i, Origin.GAP);
+
+      var centerLength = centerSteps * 2 + 1;
+      var gapLength = gapSteps * 2;
       var bestLength = bestRight - bestLeft;
-
-      var centerSteps = expandCenter(s, i);
-      var centerLeft = i - centerSteps;
-      var centerRight = i + centerSteps + 1;
-      var centerLength = centerRight - centerLeft;
-
-      var gapSteps = expandGap(s, i);
-      var gapLeft = i - gapSteps + 1;
-      var gapRight = i + gapSteps + 1;
-      var gapLength = gapRight - gapLeft;
-
       if (Math.max(centerLength, gapLength) > bestLength) {
-        bestLeft = centerLength > gapLength ? centerLeft : gapLeft;
-        bestRight = centerLength > gapLength ? centerRight : gapRight;
+        if (centerLength > gapLength) {
+          bestLeft = i - centerSteps;
+          bestRight = i + centerSteps + 1;
+        } else {
+          bestLeft = i - gapSteps + 1;
+          bestRight = i + gapSteps + 1;
+        }
       }
     }
     return s.substring(bestLeft, bestRight);
   }
 
-  int expandCenter(String s, int center) {
-    int left = center - 1;
+  int expandCenter(String s, int center, Origin origin) {
+    int left = switch (origin) {
+      case Origin.CHAR -> center - 1;
+      case Origin.GAP -> center;
+    };
     int right = center + 1;
     while (left >= 0 && right < s.length()) {
       if (s.charAt(left) != s.charAt(right)) {
@@ -66,20 +70,10 @@ class Solution {
       left--;
       right++;
     }
-    return center - left - 1;
-  }
-
-  int expandGap(String s, int gap) {
-    int left = gap;
-    int right = gap + 1;
-    while (left >= 0 && right < s.length()) {
-      if (s.charAt(left) != s.charAt(right)) {
-        break;
-      }
-      left--;
-      right++;
-    }
-    return gap - left;
+    return switch (origin) {
+      case Origin.CHAR -> center - left - 1;
+      case Origin.GAP -> center - left;
+    };
   }
 
   /**

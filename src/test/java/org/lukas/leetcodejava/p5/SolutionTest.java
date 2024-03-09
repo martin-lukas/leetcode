@@ -1,9 +1,11 @@
 package org.lukas.leetcodejava.p5;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.lukas.leetcodejava.p5.Solution.Origin.*;
 
 import java.util.List;
 import org.junit.jupiter.api.Test;
+import org.lukas.leetcodejava.p5.Solution.Origin;
 
 class SolutionTest {
 
@@ -34,52 +36,39 @@ class SolutionTest {
   @Test
   void expandCenterTest() {
     record ExpandCenterCase(
-        String tested, int centerIndex, int expectedSteps, String longest
+        String tested, int centerIndex, Origin origin, int expectedSteps, String longest
     ) {}
     var testCases = List.of(
-        new ExpandCenterCase("abacaba", 0, 0, "a"),
-        new ExpandCenterCase("abacaba", 1, 1, "aba"),
-        new ExpandCenterCase("abacaba", 3, 3, "abacaba"),
-        new ExpandCenterCase("abba", 1, 0, "b"),
-        new ExpandCenterCase("a", 0, 0, "a")
+        new ExpandCenterCase("abacaba", 0, CHAR, 0, "a"),
+        new ExpandCenterCase("abacaba", 1, CHAR, 1, "aba"),
+        new ExpandCenterCase("abacaba", 3, CHAR, 3, "abacaba"),
+        new ExpandCenterCase("abba", 1, CHAR, 0, "b"),
+        new ExpandCenterCase("a", 0, CHAR, 0, "a"),
+        new ExpandCenterCase("garrabbarrag", 0, GAP, 0, ""),
+        new ExpandCenterCase("garrabbarrag", 2, GAP, 2, "arra"),
+        new ExpandCenterCase("garrabbarrag", 5, GAP, 6, "garrabbarrag"),
+        new ExpandCenterCase("garrabbarrag", 10, GAP, 0, ""),
+        new ExpandCenterCase("aba", 1, GAP, 0, ""),
+        new ExpandCenterCase("abb", 1, GAP, 1, "bb"),
+        new ExpandCenterCase("a", 0, GAP, 0, "")
     );
     testCases.forEach(tc -> {
       System.out.println(STR."Processing test case: \{tc}");
-      var stepsFrom = tested.expandCenter(tc.tested, tc.centerIndex);
+      var stepsFrom = tested.expandCenter(tc.tested, tc.centerIndex, tc.origin);
       assertEquals(tc.expectedSteps, stepsFrom);
       assertEquals(
           tc.longest,
-          tc.tested.substring(
-              tc.centerIndex - stepsFrom,
-              tc.centerIndex + stepsFrom + 1
-          )
-      );
-      System.out.println(STR."Passed test case: \{tc}");
-    });
-  }
+          switch (tc.origin) {
+            case CHAR -> tc.tested.substring(
+                tc.centerIndex - stepsFrom,
+                tc.centerIndex + stepsFrom + 1
+            );
+            case GAP -> tc.tested.substring(
+                tc.centerIndex - stepsFrom + 1,
+                tc.centerIndex + stepsFrom + 1
+            );
+          }
 
-  @Test
-  void expandGapTest() {
-    record ExpandGapCase(String tested, int gapIndex, int expectedSteps, String longest) {}
-    var testCases = List.of(
-        new ExpandGapCase("garrabbarrag", 0, 0, ""),
-        new ExpandGapCase("garrabbarrag", 2, 2, "arra"),
-        new ExpandGapCase("garrabbarrag", 5, 6, "garrabbarrag"),
-        new ExpandGapCase("garrabbarrag", 10, 0, ""),
-        new ExpandGapCase("aba", 1, 0, ""),
-        new ExpandGapCase("abb", 1, 1, "bb"),
-        new ExpandGapCase("a", 0, 0, "")
-    );
-    testCases.forEach(tc -> {
-      System.out.println(STR."Processing test case: \{tc}");
-      var stepsFrom = tested.expandGap(tc.tested, tc.gapIndex);
-      assertEquals(tc.expectedSteps, stepsFrom);
-      assertEquals(
-          tc.longest,
-          tc.tested.substring(
-              tc.gapIndex - stepsFrom + 1,
-              tc.gapIndex + stepsFrom + 1
-          )
       );
       System.out.println(STR."Passed test case: \{tc}");
     });
