@@ -1,4 +1,4 @@
-package org.lukas.leetcodejava.p1768;
+package org.lukas.leetcode.p1768;
 
 import static org.junit.jupiter.api.Assertions.*;
 

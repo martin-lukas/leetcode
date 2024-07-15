@@ -1,4 +1,4 @@
-package org.lukas.leetcodejava.p1071;
+package org.lukas.leetcode.p1071;
 
 class Solution {
 

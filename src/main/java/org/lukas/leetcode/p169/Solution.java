@@ -1,4 +1,4 @@
-package org.lukas.leetcodejava.p169;
+package org.lukas.leetcode.p169;
 
 import java.util.Comparator;
 import java.util.HashMap;

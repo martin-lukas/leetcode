@@ -1,11 +1,11 @@
-package org.lukas.leetcodejava.p5;
+package org.lukas.leetcode.p5;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.lukas.leetcodejava.p5.Solution.Origin.*;
+import static org.lukas.leetcode.p5.Solution.Origin.*;
 
 import java.util.List;
 import org.junit.jupiter.api.Test;
-import org.lukas.leetcodejava.p5.Solution.Origin;
+import org.lukas.leetcode.p5.Solution.Origin;
 
 class SolutionTest {
 

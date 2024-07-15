@@ -1,4 +1,4 @@
-package org.lukas.leetcodejava.p88;
+package org.lukas.leetcode.p88;
 
 class Solution {
   public void merge(int[] nums1, int m, int[] nums2, int n) {

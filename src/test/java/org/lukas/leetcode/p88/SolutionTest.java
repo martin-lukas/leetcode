@@ -1,4 +1,4 @@
-package org.lukas.leetcodejava.p88;
+package org.lukas.leetcode.p88;
 
 import org.junit.jupiter.api.Test;
 
